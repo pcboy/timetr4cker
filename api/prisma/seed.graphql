@@ -1,0 +1,5 @@
+mutation {
+  createProject(data: { name: "demo" }) {
+    name
+  }
+}

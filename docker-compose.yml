@@ -1,0 +1,53 @@
+version: "3"
+services:
+  timetr4cker:
+    image: timetr4cker
+    restart: always
+    build: ./api/
+    depends_on:
+      - prisma
+    environment:
+      PRISMA_ENDPOINT: http://prisma:4466
+      NODE_ENV: development
+    ports:
+      - 4000:4000
+    command: bash -c "yarn prisma deploy && yarn start"
+    volumes:
+      - ./:/app
+
+  prisma:
+    image: prismagraphql/prisma:1.34
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "4466:4466"
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        # uncomment the next line and provide the env var PRISMA_MANAGEMENT_API_SECRET=my-secret to activate cluster security
+        # managementApiSecret: my-secret
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            user: prisma
+            password: prisma
+            rawAccess: true
+            port: 5432
+            migrations: true
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/volumes/postgres-data

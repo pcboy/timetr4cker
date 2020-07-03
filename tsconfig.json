@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "strict": true,
+    "experimentalDecorators": true,
+    "lib": ["es2020"],
+    "paths": {
+      "*": ["src/*"]
+    },
+    "allowJs": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist"
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

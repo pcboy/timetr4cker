@@ -1,0 +1,18 @@
+
+
+type Project {
+  id: ID! @id
+  name: String! @unique
+  entries: [Entry]!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Entry {
+  id: ID! @id
+  project: Project! @relation(link: INLINE)
+  startTime: DateTime!
+  endTime: DateTime
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
