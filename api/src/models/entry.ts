@@ -33,7 +33,8 @@ export const getEntries = async (
 ) => {
   console.log(startTime);
   console.log(endTime);
-  const entries = await Entry.findAll({
+  
+  return Entry.findAll({
     where: {
       projectId: projectId,
       [Op.or]: [
@@ -46,8 +47,6 @@ export const getEntries = async (
     },
     include: [Project],
   });
-  console.log(entries);
-  return entries;
 };
 
 export const createEntry = async (

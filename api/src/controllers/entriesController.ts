@@ -1,30 +1,36 @@
 import * as EntryModel from "../models/entry";
+import { Project } from "../models/project";
 
 const getEntries = async (req: any, reply: any) => {
+  const { projectName } = req.params;
+
+  const [project]: [Project, boolean] = await Project.findOrCreate({
+    where: { name: projectName },
+  });
+
+  console.log(project);
   const {
     startTime,
     endTime,
   }: { startTime: string; endTime: string } = req.query;
-  console.log(req.query);
-
-  const projectId = 1;
 
   return EntryModel.getEntries(
-    projectId,
+    project.id!,
     new Date(parseInt(startTime)),
     new Date(parseInt(endTime))
   );
 };
 
 const startTimer = async (req: any, reply: any) => {
-  const { projectId } = req.params;
+  const { projectName } = req.params;
+  const [project]: [Project, boolean] = await Project.findOrCreate({ where: { name: projectName } });
 
   const exists = await EntryModel.Entry.findOne({
-    where: { endTime: null, projectId: projectId },
+    where: { endTime: null, projectId: project.id! },
   });
 
   if (!exists) {
-    return EntryModel.createEntry(projectId, new Date());
+    return EntryModel.createEntry(project.id!, new Date());
   }
 
   return reply.code(412).send({
@@ -33,16 +39,17 @@ const startTimer = async (req: any, reply: any) => {
 };
 
 const stopTimer = async (req: any, reply: any) => {
-  const { projectId } = req.params;
+  const { projectName } = req.params;
+  const [project]: [Project, boolean] = await Project.findOrCreate({ where: { name: projectName } });
 
   const exists = await EntryModel.Entry.findOne({
-    where: { endTime: null, projectId: projectId },
+    where: { endTime: null, projectId: project.id! },
   });
 
   if (exists) {
     return EntryModel.Entry.update(
       { endTime: new Date() },
-      { where: { projectId: projectId, endTime: null } }
+      { where: { projectId: project.id!, endTime: null } }
     );
   }
 
@@ -52,14 +59,17 @@ const stopTimer = async (req: any, reply: any) => {
 };
 
 const createEntry = async (req: any, reply: any) => {
-  const { projectId } = req.params;
+  const { projectName } = req.params;
+
+  const [project]: [Project, boolean] = await Project.findOrCreate({ where: { name: projectName } });
+
   var {
     startTime,
     endTime,
   }: { startTime: string; endTime: string } = req.query;
 
   return EntryModel.createEntry(
-    projectId,
+    project.id!,
     new Date(parseInt(startTime)),
     new Date(parseInt(endTime))
   );

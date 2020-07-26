@@ -91,10 +91,9 @@ const Entry = observer(({ id, startTime, endTime, duration }) => {
   );
 });
 
-const Entries = observer(() => {
-  const { status, data, error, isFetching } = useQuery(
-    "entries",
-    entryStore.loadEntries
+const Entries = observer(({ projectName }) => {
+  const { status, data, error, isFetching } = useQuery("entries", () =>
+    entryStore.loadEntries(projectName)
   );
 
   if (status === "loading") {
@@ -170,40 +169,25 @@ const CurrentDate = observer(() => {
   );
 });
 
-const Triggers = observer(() => {
-  const { status, data, error, isFetching } = useQuery(
-    "projects",
-    entryStore.getProjects
-  );
-
-  if (status === "loading") {
-    return <h1>Loading...</h1>;
-  }
-
-  if (status === "error") {
-    return <h1>{error.message}</h1>;
-  }
-
-  const isTimerStarted = (projectId) => {
-    return entryStore.timersStatus[projectId];
+const Triggers = observer(({ projectName }) => {
+  const isTimerStarted = (projectName) => {
+    return entryStore.timersStatus[projectName];
   };
 
   return (
     <div>
-      {data.map((p) => (
-        <button
-          key={`project_${p.id}`}
-          className="is-primary"
-          onClick={() =>
-            (isTimerStarted(p.id)
-              ? entryStore.stopTimer(p.id)
-              : entryStore.startTimer(p.id)
-            ).then(() => queryCache.invalidateQueries("entries"))
-          }
-        >
-          {p.name}
-        </button>
-      ))}
+      <button
+        key={`project_${projectName}`}
+        className="is-primary"
+        onClick={() =>
+          (isTimerStarted(projectName)
+            ? entryStore.stopTimer(projectName)
+            : entryStore.startTimer(projectName)
+          ).then(() => queryCache.invalidateQueries("entries"))
+        }
+      >
+        {projectName}
+      </button>
     </div>
   );
 });
@@ -221,9 +205,9 @@ export const WelcomePage = observer(() => {
           <img src={logo} />
         </div>
         <CurrentDate />
-        <Triggers />
+        <Triggers projectName={store.router.params["projectName"]} />
 
-        <Entries />
+        <Entries projectName={store.router.params["projectName"]} />
       </>
     </ApplicationLayout>
   );

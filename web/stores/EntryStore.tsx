@@ -54,15 +54,15 @@ class EntryStore {
     );
   };
 
-  @action startTimer = async (projectId) => {
+  @action startTimer = async (projectName) => {
     return Axios.post(
-      process.env.API_URL + `/entries/${projectId}/startTimer`,
+      process.env.API_URL + `/entries/${projectName}/startTimer`,
       { withCredentials: true }
     ).then((response) => response.data);
   };
 
-  @action stopTimer = async (projectId) => {
-    return Axios.post(process.env.API_URL + `/entries/${projectId}/stopTimer`, {
+  @action stopTimer = async (projectName) => {
+    return Axios.post(process.env.API_URL + `/entries/${projectName}/stopTimer`, {
       withCredentials: true,
     }).then((response) => response.data);
   };
@@ -75,17 +75,20 @@ class EntryStore {
     ).then((response) => response.data);
   };
 
-  @action loadEntries = async () => {
-    return Axios.get<EntryResponse[]>(process.env.API_URL + `/entries`, {
-      params: {
-        startTime: this.selectedPeriod.startDate.getTime(),
-        endTime: this.selectedPeriod.endDate.getTime(),
-      },
-    })
+  @action loadEntries = async (projectName: string) => {
+     return Axios.get<EntryResponse[]>(
+      process.env.API_URL + `/entries/${projectName}`,
+      {
+        params: {
+          startTime: this.selectedPeriod.startDate.getTime(),
+          endTime: this.selectedPeriod.endDate.getTime(),
+        },
+      }
+    )
       .then((response) => response.data)
       .then((data) =>
         data.map((entry) => {
-          this.timersStatus[entry.project.id] = !entry.endTime;
+          this.timersStatus[entry.project.name] = !entry.endTime;
           return DateEntry(entry);
         })
       )

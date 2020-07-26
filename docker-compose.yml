@@ -5,10 +5,10 @@ services:
     restart: always
     build: ./api/
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
     ports:
-      - 4000:4000
-    command: bash -c "yarn start"
+      - 8080:8080
+    command: bash -c "yarn exec sequelize-cli db:migrate; yarn exec sequelize-cli db:seed; yarn start"
     volumes:
       - ./api:/app
 

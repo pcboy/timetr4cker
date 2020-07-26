@@ -3,22 +3,22 @@ import entriesController from "../controllers/entriesController";
 export const entryRoutes = [
   {
     method: <const>"GET",
-    url: "/entries",
+    url: "/entries/:projectName",
     handler: entriesController.getEntries,
   },
   {
     method: <const>"POST",
-    url: "/entries",
+    url: "/entries/:projectName",
     handler: entriesController.createEntry,
   },
   {
     method: <const>"POST",
-    url: "/entries/:projectId/startTimer",
+    url: "/entries/:projectName/startTimer",
     handler: entriesController.startTimer,
   },
   {
     method: <const>"POST",
-    url: "/entries/:projectId/stopTimer",
+    url: "/entries/:projectName/stopTimer",
     handler: entriesController.stopTimer,
   },
 ];

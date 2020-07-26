@@ -1,7 +1,10 @@
-import { Table, Column, Model } from "sequelize-typescript";
+import { Table, Column, Model, DataType } from "sequelize-typescript";
 
 @Table({ timestamps: true })
 export class Project extends Model<Project> {
+  @Column({ primaryKey: true, type: DataType.NUMBER })
+  id?: number;
+
   @Column
   name?: string;
 

@@ -26,7 +26,7 @@ server.addHook("onRequest", async (request: any) => {
   return;
 });
 
-server.listen(8080, async (err: Error, address: string) => {
+server.listen(8080, '0.0.0.0', async (err: Error, address: string) => {
   if (err) {
     console.error(err);
     process.exit(1);

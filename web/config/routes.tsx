@@ -6,7 +6,7 @@ import { WelcomePage } from "../pages/WelcomePage";
 
 export const routes = {
   home: new Route({
-    path: "/",
+    path: "/:projectName",
     component: <WelcomePage />,
   }),
 };
