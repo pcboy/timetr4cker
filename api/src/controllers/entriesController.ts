@@ -1,25 +1,30 @@
 import * as EntryModel from "../models/entry";
-import { prisma } from "../generated/prisma-client";
 
 const getEntries = async (req: any, reply: any) => {
   const {
     startTime,
     endTime,
   }: { startTime: string; endTime: string } = req.query;
+  console.log(req.query);
 
-  return EntryModel.getEntries(parseInt(startTime), parseInt(endTime));
+  const projectId = 1;
+
+  return EntryModel.getEntries(
+    projectId,
+    new Date(parseInt(startTime)),
+    new Date(parseInt(endTime))
+  );
 };
 
 const startTimer = async (req: any, reply: any) => {
   const { projectId } = req.params;
 
-  const exists = await prisma.$exists.entry({
-    endTime: null,
-    project: { id: projectId },
+  const exists = await EntryModel.Entry.findOne({
+    where: { endTime: null, projectId: projectId },
   });
 
   if (!exists) {
-    return EntryModel.createEntry(projectId, new Date().getTime());
+    return EntryModel.createEntry(projectId, new Date());
   }
 
   return reply.code(412).send({
@@ -30,16 +35,15 @@ const startTimer = async (req: any, reply: any) => {
 const stopTimer = async (req: any, reply: any) => {
   const { projectId } = req.params;
 
-  const exists = await prisma.$exists.entry({
-    endTime: null,
-    project: { id: projectId },
+  const exists = await EntryModel.Entry.findOne({
+    where: { endTime: null, projectId: projectId },
   });
 
   if (exists) {
-    return prisma.updateManyEntries({
-      data: { endTime: new Date() },
-      where: { project: { id: projectId }, endTime: null },
-    });
+    return EntryModel.Entry.update(
+      { endTime: new Date() },
+      { where: { projectId: projectId, endTime: null } }
+    );
   }
 
   return reply
@@ -56,8 +60,8 @@ const createEntry = async (req: any, reply: any) => {
 
   return EntryModel.createEntry(
     projectId,
-    parseInt(startTime),
-    parseInt(endTime)
+    new Date(parseInt(startTime)),
+    new Date(parseInt(endTime))
   );
 };
 

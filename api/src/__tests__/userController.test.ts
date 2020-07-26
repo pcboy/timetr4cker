@@ -1,6 +1,5 @@
 import fastify from "../index";
-
-import { prisma } from "generated/prisma-client";
+import { Entry } from "models/entry";
 
 beforeAll(async () => {
   fastify.ready();
@@ -17,7 +16,7 @@ describe("/entries", () => {
   });
 
   beforeAll(async () => {
-    await prisma.deleteManyEntries({});
+    await Entry.drop();
   });
 
   it("GET will returns 200 and all entries", async (done) => {

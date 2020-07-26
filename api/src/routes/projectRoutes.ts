@@ -6,4 +6,9 @@ export const projectRoutes = [
     url: "/projects",
     handler: projectController.getProjects,
   },
+  {
+    method: <const>"POST",
+    url: "/projects",
+    handler: projectController.createProject,
+  },
 ];

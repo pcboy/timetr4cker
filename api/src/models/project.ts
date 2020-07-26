@@ -1,15 +1,31 @@
-import { prisma, Entry, Project } from "../generated/prisma-client";
+import { Table, Column, Model } from "sequelize-typescript";
+
+@Table({ timestamps: true })
+export class Project extends Model<Project> {
+  @Column
+  name?: string;
+
+  @Column
+  budget?: number;
+
+  @Column
+  timeBudget?: number;
+
+  @Column
+  rate?: number;
+}
 
 export const findProject = async (projectId: number) => {
-  return prisma.project({ id: projectId });
+  return Project.findByPk(projectId);
 };
 
 export const createProject = async (name: string) => {
-  return prisma.createProject({
-    name: name,
+  return Project.findOrCreate({
+    where: { name },
+    defaults: { name },
   });
 };
 
 export const getProjects = async () => {
-  return prisma.projects();
+  return Project.findAll();
 };

@@ -1,29 +1,59 @@
-import { prisma, Entry, Project } from "../generated/prisma-client";
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  DataType,
+} from "sequelize-typescript";
 
-export const getEntries = async (startTime: number, endTime: number) => {
-  return prisma
-    .entries({
-      where: {
-        OR: [
-          {
-            startTime_gte: new Date(startTime),
-            endTime_lte: new Date(endTime),
-          },
-          { startTime_gte: new Date(startTime), endTime: null },
-        ],
-      },
-    })
-    .$fragment("{id startTime endTime project { id name }}");
+import { Project } from "./project";
+import { Op } from "sequelize";
+
+@Table({ timestamps: true })
+export class Entry extends Model<Entry> {
+  @Column(DataType.DATE)
+  startTime?: Date;
+
+  @Column(DataType.DATE)
+  endTime?: Date;
+
+  @ForeignKey(() => Project)
+  @Column
+  projectId?: number;
+
+  @BelongsTo(() => Project)
+  project?: Project;
+}
+
+export const getEntries = async (
+  projectId: number,
+  startTime: Date,
+  endTime: Date
+) => {
+  console.log(startTime);
+  console.log(endTime);
+  const entries = await Entry.findAll({
+    where: {
+      projectId: projectId,
+      [Op.or]: [
+        {
+          startTime: { [Op.gte]: startTime },
+          endTime: { [Op.lte]: endTime },
+        },
+        { startTime: { [Op.gte]: startTime }, endTime: null },
+      ],
+    },
+    include: [Project],
+  });
+  console.log(entries);
+  return entries;
 };
 
 export const createEntry = async (
-  project_id: number,
-  startTime: number,
-  endTime?: number
+  projectId: number,
+  startTime: Date,
+  endTime?: Date
 ) => {
-  return prisma.createEntry({
-    startTime: new Date(startTime),
-    endTime: endTime ? new Date(endTime) : null,
-    project: { connect: { id: project_id } },
-  });
+  return Entry.create({ projectId, startTime, endTime });
 };

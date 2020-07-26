@@ -1,33 +1,34 @@
 {
   "scripts": {
     "test": "NODE_ENV=test env-cmd -f .env.test yarn jest -u --verbose --runInBand ",
-    "dev": "env-cmd -f .env.development prisma deploy --force && env-cmd -f .env.development nodemon src/index.ts",
-    "start": "env-cmd -f .env.production prisma deploy && env-cmd -f .env.production nodemon -r dotenv/config src/index.ts",
+    "dev": "NODE_ENV=development env-cmd -f .env.development nodemon src/index.ts",
+    "start": "env-cmd -f .env.production nodemon -r dotenv/config src/index.ts",
     "repl": "local-repl"
   },
   "dependencies": {
-    "apollo-server": "^2.14.3",
     "axios": "^0.19.2",
     "concat-typed-array": "^1.0.2",
     "fastify": "^2.14.1",
     "fastify-cookie": "^3.6.1",
     "fastify-cors": "^3.0.3",
     "global": "^4.4.0",
-    "graphql-config": "^3.0.2",
     "libsodium-wrappers": "^0.7.6",
     "parcel": "^1.12.4",
-    "prisma-client-lib": "^1.34.10"
+    "pg": "^8.3.0",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.21.10",
+    "sequelize-cli": "^6.2.0",
+    "sequelize-typescript": "^1.1.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.1",
     "@types/jest": "^26.0.0",
     "@types/libsodium-wrappers": "^0.7.7",
-    "@types/node": "^14.0.13",
+    "@types/node": "^14.0.26",
     "env-cmd": "^10.1.0",
     "jest": "^26.0.1",
     "local-repl": "^4.0.0",
     "nodemon": "^2.0.4",
-    "prisma": "^1.34.10",
     "ts-jest": "^26.1.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
