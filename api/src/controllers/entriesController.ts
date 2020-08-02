@@ -6,9 +6,9 @@ const getEntries = async (req: any, reply: any) => {
 
   const [project]: [Project, boolean] = await Project.findOrCreate({
     where: { name: projectName },
+    defaults: { budget: 1000000, timeBudget: 161 * 60, rate: 10000 },
   });
 
-  console.log(project);
   const {
     startTime,
     endTime,
@@ -23,7 +23,9 @@ const getEntries = async (req: any, reply: any) => {
 
 const startTimer = async (req: any, reply: any) => {
   const { projectName } = req.params;
-  const [project]: [Project, boolean] = await Project.findOrCreate({ where: { name: projectName } });
+  const [project]: [Project, boolean] = await Project.findOrCreate({
+    where: { name: projectName },
+  });
 
   const exists = await EntryModel.Entry.findOne({
     where: { endTime: null, projectId: project.id! },
@@ -40,7 +42,9 @@ const startTimer = async (req: any, reply: any) => {
 
 const stopTimer = async (req: any, reply: any) => {
   const { projectName } = req.params;
-  const [project]: [Project, boolean] = await Project.findOrCreate({ where: { name: projectName } });
+  const [project]: [Project, boolean] = await Project.findOrCreate({
+    where: { name: projectName },
+  });
 
   const exists = await EntryModel.Entry.findOne({
     where: { endTime: null, projectId: project.id! },
@@ -61,7 +65,9 @@ const stopTimer = async (req: any, reply: any) => {
 const createEntry = async (req: any, reply: any) => {
   const { projectName } = req.params;
 
-  const [project]: [Project, boolean] = await Project.findOrCreate({ where: { name: projectName } });
+  const [project]: [Project, boolean] = await Project.findOrCreate({
+    where: { name: projectName },
+  });
 
   var {
     startTime,

@@ -27,6 +27,8 @@ $cultured: var(--cultured);
 }
 
 html {
+  font-family: "Proxima", sans-serif;
+
   font-size: 62.5%;
   background-color: transparent;
   overflow: auto;
@@ -35,7 +37,7 @@ html {
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Proxima", sans-serif;
 
   background-color: $cultured;
   height: 100%;
@@ -48,7 +50,7 @@ body {
 }
 
 h1 {
-  font-family: "Barlow", sans-serif;
+  font-family: "Proxima", sans-serif;
 
   font-size: 5rem;
   line-height: 5.5rem;
@@ -57,7 +59,7 @@ h1 {
 }
 
 h2 {
-  font-family: "Barlow", sans-serif;
+  font-family: "Proxima", sans-serif;
 }
 
 input[type="text"],

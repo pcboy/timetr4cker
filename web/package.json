@@ -8,6 +8,7 @@
     "start": "NODE_ENV=production env-cmd -f .env.production parcel index.html"
   },
   "dependencies": {
+    "@bit/redsky.framework.rs.progressbar": "^0.0.4",
     "axios": "^0.19.2",
     "bulma": "^0.9.0",
     "config": "^3.3.1",
@@ -42,6 +43,7 @@
     "babel-plugin-emotion": "^10.0.33",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-mobx-deep-action": "^1.6.1",
+    "riek": "^1.1.0",
     "sass": "^1.26.8",
     "typescript": "^3.9.5"
   }

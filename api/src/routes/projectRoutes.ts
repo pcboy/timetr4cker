@@ -7,8 +7,13 @@ export const projectRoutes = [
     handler: projectController.getProjects,
   },
   {
+    method: <const>"GET",
+    url: "/projects/:projectName",
+    handler: projectController.getProject,
+  },
+  {
     method: <const>"POST",
-    url: "/projects",
-    handler: projectController.createProject,
+    url: "/projects/:projectName",
+    handler: projectController.updateProject,
   },
 ];

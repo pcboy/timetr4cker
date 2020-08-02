@@ -31,9 +31,6 @@ export const getEntries = async (
   startTime: Date,
   endTime: Date
 ) => {
-  console.log(startTime);
-  console.log(endTime);
-  
   return Entry.findAll({
     where: {
       projectId: projectId,

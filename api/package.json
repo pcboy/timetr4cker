@@ -2,6 +2,7 @@
   "scripts": {
     "test": "NODE_ENV=test env-cmd -f .env.test yarn jest -u --verbose --runInBand ",
     "dev": "NODE_ENV=development env-cmd -f .env.development nodemon src/index.ts",
+    "import_data": "NODE_ENV=development env-cmd -f .env.development nodemon import.ts",
     "start": "NODE_ENV=production env-cmd -f .env.production nodemon -r dotenv/config src/index.ts",
     "repl": "local-repl"
   },

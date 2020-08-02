@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { observable, computed } from "mobx";
 import { action } from "mobx";
 import Axios from "axios";
 
@@ -32,18 +32,74 @@ const DateEntry = (entryResponse: EntryResponse) => {
   };
 };
 
+interface ProjectData {
+  name?: string;
+  currentMinutes?: number;
+  budget?: number;
+  timeBudget?: number;
+  rate?: number;
+  isTimerStarted?: boolean;
+}
+
 class EntryStore {
-  @observable timersStatus = {};
+  @observable project: ProjectData = {
+    name: "",
+    currentMinutes: 0,
+    budget: 0,
+    timeBudget: 0,
+    rate: 0,
+    isTimerStarted: false,
+  };
 
   @observable selectedPeriod = {
     startDate: firstDayOfMonth(),
     endDate: lastDayOfMonth(),
   };
 
-  @action getProjects = async () => {
-    return Axios.get<ProjectResponse[]>(process.env.API_URL + `/projects`).then(
-      (response) => response.data
+  @computed get timePercentage() {
+    if (this.project.timeBudget === 0) return 0;
+
+    return (
+      ((this.project.currentMinutes / this.project.timeBudget) * 100).toFixed(
+        1
+      ) || 0
     );
+  }
+
+  @computed get moniesPercentage() {
+    if (this.project.budget === 0) return 0;
+
+    return (
+      (
+        (((this.project.currentMinutes / 60.0) * this.project.rate) /
+          this.project.budget) *
+        100
+      ).toFixed(1) || 0
+    );
+  }
+
+  @action updateProject = async (projectData: ProjectData) => {
+    const merged = { ...this.project, ...projectData };
+    console.log(merged);
+    return Axios.post(process.env.API_URL + `/projects/${merged.name}`, {
+      budget: merged.budget,
+      timeBudget: merged.timeBudget,
+      rate: merged.rate,
+    }, { withCredentials: true }).then((response) => {
+      console.log(JSON.stringify(this.project))
+      this.project = { ...this.project, ...response.data }
+      console.log(JSON.stringify(this.project))
+      return this.project
+    });
+  };
+
+  @action getProject = async (projectName: string) => {
+    return Axios.get<ProjectResponse[]>(
+      process.env.API_URL + `/projects/${projectName}`
+    ).then((response: any) => {
+      this.project = { ...this.project, ...response.data };
+      return this.project;
+    });
   };
 
   @action deleteEntry = async (entryId) => {
@@ -54,17 +110,20 @@ class EntryStore {
     );
   };
 
-  @action startTimer = async (projectName) => {
+  @action startTimer = async (projectName: string) => {
     return Axios.post(
       process.env.API_URL + `/entries/${projectName}/startTimer`,
       { withCredentials: true }
     ).then((response) => response.data);
   };
 
-  @action stopTimer = async (projectName) => {
-    return Axios.post(process.env.API_URL + `/entries/${projectName}/stopTimer`, {
-      withCredentials: true,
-    }).then((response) => response.data);
+  @action stopTimer = async (projectName: string) => {
+    return Axios.post(
+      process.env.API_URL + `/entries/${projectName}/stopTimer`,
+      {
+        withCredentials: true,
+      }
+    ).then((response) => response.data);
   };
 
   @action createEntry = async (startTime, endTime) => {
@@ -76,7 +135,7 @@ class EntryStore {
   };
 
   @action loadEntries = async (projectName: string) => {
-     return Axios.get<EntryResponse[]>(
+    return Axios.get<EntryResponse[]>(
       process.env.API_URL + `/entries/${projectName}`,
       {
         params: {
@@ -86,12 +145,15 @@ class EntryStore {
       }
     )
       .then((response) => response.data)
-      .then((data) =>
-        data.map((entry) => {
-          this.timersStatus[entry.project.name] = !entry.endTime;
+      .then((data) => {
+        this.project["currentMinutes"] = 0;
+        return data.map((entry) => {
+          this.project = { ...this.project, isTimerStarted: !entry.endTime };
+          const dEntry = DateEntry(entry);
+          this.project["currentMinutes"] += dEntry.duration;
           return DateEntry(entry);
-        })
-      )
+        });
+      })
       .then((data) =>
         groupBy(data, (x) => moment(x.startTime).format("YYYY/MM/DD"))
       );

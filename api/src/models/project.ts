@@ -1,10 +1,7 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+import { Table, Column, Model } from "sequelize-typescript";
 
 @Table({ timestamps: true })
 export class Project extends Model<Project> {
-  @Column({ primaryKey: true, type: DataType.NUMBER })
-  id?: number;
-
   @Column
   name?: string;
 
@@ -20,6 +17,24 @@ export class Project extends Model<Project> {
 
 export const findProject = async (projectId: number) => {
   return Project.findByPk(projectId);
+};
+
+export const updateProject = async (
+  projectId: number,
+  budget: number,
+  timeBudget: number,
+  rate: number
+) => {
+  const projects = (await Project.update<Project>(
+    {
+      budget,
+      timeBudget,
+      rate,
+    },
+    { where: { id: projectId }, returning: true }
+  ))[1];
+  
+  return projects[0] as Project;
 };
 
 export const createProject = async (name: string) => {

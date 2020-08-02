@@ -8,7 +8,8 @@ services:
       NODE_ENV: production
     ports:
       - 8080:8080
-    command: bash -c "yarn exec sequelize-cli db:migrate; yarn exec sequelize-cli db:seed; yarn start"
+    command:
+      - bash -c "yarn start"
     volumes:
       - ./api:/app
 
@@ -20,6 +21,7 @@ services:
       POSTGRES_PASSWORD: root
     volumes:
       - postgres:/var/lib/postgresql/data
+
 volumes:
   postgres:
     driver: local
