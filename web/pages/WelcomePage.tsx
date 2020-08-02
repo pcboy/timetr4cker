@@ -10,6 +10,7 @@ import { ApplicationLayout } from "../layouts/ApplicationLayout";
 import { ProjectConfiguration } from "../components/ProjectConfiguration";
 import { Entries } from "../components/Entries";
 import { CurrentDate } from "../components/CurrentDate";
+import entryStore from "../stores/EntryStore";
 
 export const WelcomePage = observer(() => {
   const store = useContext(StoreContext);
@@ -26,13 +27,17 @@ export const WelcomePage = observer(() => {
             marginBottom: "3rem",
           }}
         >
-          {store.router.params["projectName"]}
+          {entryStore.project.name}
         </h1>
         <ProjectConfiguration
-          projectName={store.router.params["projectName"]}
+          key={`project_${entryStore.selectedPeriod.startDate}_${entryStore.selectedPeriod.endDate}`}
+          projectName={entryStore.project.name}
         />
 
-        <Entries projectName={store.router.params["projectName"]} />
+        <Entries
+          key={`entries_${entryStore.selectedPeriod.startDate}_${entryStore.selectedPeriod.endDate}`}
+          projectName={entryStore.project.name}
+        />
       </>
     </ApplicationLayout>
   );

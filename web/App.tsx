@@ -6,7 +6,7 @@ import routes from "./config/routes";
 import { entryStore } from "./stores/EntryStore";
 
 export class AppStore {
-  entryStore;
+  entryStore = entryStore
 }
 
 export class RootStore {

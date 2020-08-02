@@ -8,14 +8,14 @@ import { groupBy } from "lodash";
 
 import moment from "moment";
 
-const firstDayOfMonth = () => {
+export const firstDayOfMonth = (offset = 0) => {
   var date = new Date();
-  return new Date(date.getFullYear(), date.getMonth(), 1);
+  return new Date(date.getFullYear(), date.getMonth() + offset, 1);
 };
 
-const lastDayOfMonth = () => {
+export const lastDayOfMonth = (offset = 0) => {
   var date = new Date();
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  return new Date(date.getFullYear(), date.getMonth() + 1 + offset, 0);
 };
 
 const DateEntry = (entryResponse: EntryResponse) => {
