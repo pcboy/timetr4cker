@@ -29,6 +29,11 @@ const SCurrentDate = styled.div`
     max-width: 60rem;
     width: 50%;
   }
+
+  @media print {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
 `;
 
 export const CurrentDate = observer(() => {
@@ -39,7 +44,7 @@ export const CurrentDate = observer(() => {
   return (
     <SCurrentDate>
       <div className="columns">
-        <div className="column is-narrow">
+        <div className="column is-narrow current-date-arrow-left">
           <Link
             router={store.router}
             route={routes.home}
@@ -75,7 +80,7 @@ export const CurrentDate = observer(() => {
             {moment(endDate).format("YYYY")}
           </h1>
         </div>
-        <div className="column is-narrow">
+        <div className="column is-narrow current-date-arrow-right">
           <Link
             router={store.router}
             route={routes.home}

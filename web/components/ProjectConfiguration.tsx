@@ -32,7 +32,8 @@ const SProjectConfiguration = styled.div`
 `;
 
 export const ProjectConfiguration = observer(({ projectName }) => {
-  const { status, data, error, isFetching } = useQuery("projects", () => entryStore.getProject(projectName)
+  const { status, data, error, isFetching } = useQuery("projects", () =>
+    entryStore.getProject(projectName)
   );
 
   const isTimerStarted = () => {
@@ -64,7 +65,9 @@ export const ProjectConfiguration = observer(({ projectName }) => {
       value={(entryStore.project.timeBudget / 60.0).toFixed(1)}
       propName="timeBudget"
       className="editable"
-      change={(data) => entryStore.updateProject({ timeBudget: data.timeBudget * 60 })}
+      change={(data) =>
+        entryStore.updateProject({ timeBudget: data.timeBudget * 60 })
+      }
     ></RIENumber>
   );
 
@@ -78,17 +81,20 @@ export const ProjectConfiguration = observer(({ projectName }) => {
   );
 
   return (
-    <SProjectConfiguration>
+    <SProjectConfiguration className="project-configuration">
       <div className="columns is-multiline">
         <div className="column is-12">
           <button
             key={`project_${projectName}`}
             className={`control-button ${
-              isTimerStarted() ? "is-danger" : "is-success"}`}
-            onClick={() => (isTimerStarted()
-              ? entryStore.stopTimer(projectName)
-              : entryStore.startTimer(projectName)
-            ).then(() => queryCache.invalidateQueries("entries"))}
+              isTimerStarted() ? "is-danger" : "is-success"
+            }`}
+            onClick={() =>
+              (isTimerStarted()
+                ? entryStore.stopTimer(projectName)
+                : entryStore.startTimer(projectName)
+              ).then(() => queryCache.invalidateQueries("entries"))
+            }
           >
             {isTimerStarted() ? `STOP TIMER` : `START TIMER`}
           </button>
@@ -106,7 +112,8 @@ export const ProjectConfiguration = observer(({ projectName }) => {
             customIndicatorContent={<h3>{entryStore.timePercentage + "%"}</h3>}
             customIndicator
             striped
-            animated />
+            animated
+          />
         </div>
         <div className="column is-12">
           <span style={{ marginRight: "1rem" }}>
@@ -123,10 +130,13 @@ export const ProjectConfiguration = observer(({ projectName }) => {
           </span>
           <ProgressBar
             percentage={entryStore.moniesPercentage}
-            customIndicatorContent={<h3>{entryStore.moniesPercentage + "%"}</h3>}
+            customIndicatorContent={
+              <h3>{entryStore.moniesPercentage + "%"}</h3>
+            }
             customIndicator
             striped
-            animated />
+            animated
+          />
         </div>
       </div>
     </SProjectConfiguration>

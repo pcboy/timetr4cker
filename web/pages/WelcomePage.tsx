@@ -27,7 +27,7 @@ export const WelcomePage = observer(() => {
             marginBottom: "3rem",
           }}
         >
-          {entryStore.project.name}
+          Project {entryStore.project.name}
         </h1>
         <ProjectConfiguration
           key={`project_${entryStore.selectedPeriod.startDate}_${entryStore.selectedPeriod.endDate}`}

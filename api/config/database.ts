@@ -4,13 +4,12 @@ let config = require("./config.json");
 
 import { Project } from "../src/models/project";
 import { Entry } from "../src/models/entry";
-
-import * as path from 'path';
+import * as path from "path";
 
 const Umzug = require("umzug");
 
 const db = new Sequelize({
-  ...config[process.env.NODE_ENV!],
+  ...config[process.env.NODE_ENV || 'test'],
   define: {
     charset: "utf8",
     timestamps: true,
@@ -24,7 +23,7 @@ const umzug = new Umzug({
     // indicates the folder containing the migration .js files
     path: path.join(__dirname, "../migrations"),
     // inject sequelize's QueryInterface in the migrations
-    params: [db.getQueryInterface(), db],
+    params: [db.getQueryInterface(), db.Sequelize],
   },
   // indicates that the migration data should be store in the database
   // itself through sequelize. The default configuration creates a table
