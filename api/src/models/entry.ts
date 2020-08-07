@@ -43,6 +43,7 @@ export const getEntries = async (
       ],
     },
     include: [Project],
+    order: [['startTime', 'ASC']]
   });
 };
 

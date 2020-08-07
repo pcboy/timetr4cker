@@ -12,12 +12,12 @@ export const entryRoutes = [
     handler: entriesController.createEntry,
   },
   {
-    method: <const>"POST",
+    method: [<const>"POST", <const>"GET"],
     url: "/entries/:projectName/startTimer",
     handler: entriesController.startTimer,
   },
   {
-    method: <const>"POST",
+    method: [<const>"POST", <const>"GET"],
     url: "/entries/:projectName/stopTimer",
     handler: entriesController.stopTimer,
   },

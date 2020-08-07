@@ -81,15 +81,19 @@ class EntryStore {
   @action updateProject = async (projectData: ProjectData) => {
     const merged = { ...this.project, ...projectData };
     console.log(merged);
-    return Axios.post(process.env.API_URL + `/projects/${merged.name}`, {
-      budget: merged.budget,
-      timeBudget: merged.timeBudget,
-      rate: merged.rate,
-    }, { withCredentials: true }).then((response) => {
-      console.log(JSON.stringify(this.project))
-      this.project = { ...this.project, ...response.data }
-      console.log(JSON.stringify(this.project))
-      return this.project
+    return Axios.post(
+      process.env.API_URL + `/projects/${merged.name}`,
+      {
+        budget: merged.budget,
+        timeBudget: merged.timeBudget,
+        rate: merged.rate,
+      },
+      { withCredentials: true }
+    ).then((response) => {
+      console.log(JSON.stringify(this.project));
+      this.project = { ...this.project, ...response.data };
+      console.log(JSON.stringify(this.project));
+      return this.project;
     });
   };
 
@@ -104,7 +108,7 @@ class EntryStore {
 
   @action deleteEntry = async (entryId) => {
     return Axios.post(
-      process.env.API_URL + "/entries/delete",
+      process.env.API_URL + `/entries/${this.project.name}/delete`,
       { id: entryId },
       { withCredentials: true }
     );
@@ -114,7 +118,11 @@ class EntryStore {
     return Axios.post(
       process.env.API_URL + `/entries/${projectName}/startTimer`,
       { withCredentials: true }
-    ).then((response) => response.data);
+    ).then((response) => {
+      this.project.isTimerStarted = true;
+
+      return response.data;
+    });
   };
 
   @action stopTimer = async (projectName: string) => {
@@ -123,7 +131,11 @@ class EntryStore {
       {
         withCredentials: true,
       }
-    ).then((response) => response.data);
+    ).then((response) => {
+      this.project.isTimerStarted = false;
+
+      return response.data;
+    });
   };
 
   @action createEntry = async (startTime, endTime) => {
@@ -145,18 +157,26 @@ class EntryStore {
       }
     )
       .then((response) => response.data)
+      .then((data) => data.sort((a, b) => a.startTime < b.startTime))
       .then((data) => {
         this.project["currentMinutes"] = 0;
-        return data.map((entry) => {
-          this.project = { ...this.project, isTimerStarted: !entry.endTime };
+        let isStarted = false;
+        const res = data.map((entry) => {
+          if (!entry.endTime) {
+            isStarted = true;
+          }
+          this.project.isTimerStarted = isStarted;
           const dEntry = DateEntry(entry);
           this.project["currentMinutes"] += dEntry.duration;
           return DateEntry(entry);
         });
+       
+        return res;
       })
-      .then((data) =>
-        groupBy(data, (x) => moment(x.startTime).format("YYYY/MM/DD"))
-      );
+      .then((data) => {
+        console.log(this.project);
+        return groupBy(data, (x) => moment(x.startTime).format("YYYY/MM/DD"));
+      });
   };
 }
 

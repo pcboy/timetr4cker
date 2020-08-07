@@ -1,18 +1,5 @@
 version: "3"
 services:
-  timetr4cker:
-    image: timetr4cker
-    restart: always
-    build: ./api/
-    environment:
-      NODE_ENV: production
-    ports:
-      - 8080:8080
-    command:
-      - bash -c "yarn start"
-    volumes:
-      - ./api:/app
-
   postgres:
     image: postgres
     restart: always
@@ -21,6 +8,36 @@ services:
       POSTGRES_PASSWORD: root
     volumes:
       - postgres:/var/lib/postgresql/data
+
+  api:
+    image: node:12
+    user: node
+    working_dir: /app
+    volumes:
+      - ./api:/app
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8080:8080
+    command: bash -c "yarn start"
+    depends_on:
+      - postgres
+
+  web:
+    image: node:12
+    user: node
+    working_dir: /app
+    volumes:
+      - ./web:/app
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 1234:1234
+    command: bash -c "yarn dev"
+    depends_on:
+      - api
 
 volumes:
   postgres:
