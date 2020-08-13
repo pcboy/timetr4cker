@@ -106,10 +106,9 @@ class EntryStore {
     });
   };
 
-  @action deleteEntry = async (entryId) => {
-    return Axios.post(
-      process.env.API_URL + `/entries/${this.project.name}/delete`,
-      { id: entryId },
+  @action deleteEntry = async (entryId: number) => {
+    return Axios.delete(
+      process.env.API_URL + `/entries/${this.project.name}/${entryId}`,
       { withCredentials: true }
     );
   };
@@ -157,7 +156,7 @@ class EntryStore {
       }
     )
       .then((response) => response.data)
-      .then((data) => data.sort((a, b) => a.startTime < b.startTime))
+      .then((data) => data.sort((a, b) => a.startTime - b.startTime))
       .then((data) => {
         this.project["currentMinutes"] = 0;
         let isStarted = false;
@@ -170,7 +169,7 @@ class EntryStore {
           this.project["currentMinutes"] += dEntry.duration;
           return DateEntry(entry);
         });
-       
+
         return res;
       })
       .then((data) => {

@@ -1,21 +1,29 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true,
+    "removeComments": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "allowJs": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017",
+    "target": "es5",
     "types": ["jest", "node"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules"],
   "include": [
-    "src",
-    "src/**/*.ts",
+    "pages/**.tsx",
+    "stores/**.tsx",
+    "layouts/**.tsx",
+    "components/**.tsx",
+    "config/**.tsx"
   ]
+  
 }

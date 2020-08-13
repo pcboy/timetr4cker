@@ -4,7 +4,14 @@ import Moment from "react-moment";
 import styled from "styled-components";
 import moment from "moment";
 
+import { MdDeleteSweep } from "react-icons/md";
+
+import { useMutation, queryCache } from "react-query";
+import entryStore from "../stores/EntryStore";
+
 const SEntry = styled.div`
+  position: relative;
+
   padding: 1rem;
   background-color: white;
   color: black;
@@ -22,13 +29,43 @@ const SEntry = styled.div`
     background: none;
     margin-bottom: 0;
     font-size: 1rem;
-    padding-bottom:0;
+    padding-bottom: 0;
+  }
+  .delete-icon {
+    display: none;
+  }
+  &:hover {
+    .delete-icon {
+      display:inline;
+      position: absolute;
+      right: -6rem;
+      top: 0;
+      z-index:100;
+      height:100%;
+      width: 70px;
+      &:hover {
+        display:inline;
+
+        color: var(--radical-red);
+        cursor: pointer;
+      }
+    }
   }
 `;
 
-export const Entry = observer(({ id, startTime, endTime, duration }) => {
-  return (
-    <SEntry className="entry" data-id={id}>
+export const Entry = observer<{
+  id: number;
+  startTime: Date;
+  endTime: Date;
+  duration: number;
+}>(({ id, startTime, endTime, duration }) => {
+  const deleteAction = async (data: any) => {
+    entryStore.deleteEntry(data.id);
+  };
+  const [deleteEntry, { status }] = useMutation(deleteAction);
+
+  return status !== "success" ? (
+    <SEntry className="entry" data-id={id} key={`entry_${id}_${status}`}>
       <div className="columns">
         <div className="column is-8">
           {moment(startTime).format("HH:mm")} ~{" "}
@@ -38,7 +75,9 @@ export const Entry = observer(({ id, startTime, endTime, duration }) => {
           <div className="duration">
             {endTime ? (
               <p>
-                {moment.utc(moment.duration(duration, "minutes").asMilliseconds()).format("HH:mm")}
+                {moment
+                  .utc(moment.duration(duration, "minutes").asMilliseconds())
+                  .format("HH:mm")}
               </p>
             ) : (
               <p>
@@ -48,8 +87,15 @@ export const Entry = observer(({ id, startTime, endTime, duration }) => {
               </p>
             )}
           </div>
+          <MdDeleteSweep
+            className="delete-icon"
+            size={32}
+            onClick={() => deleteEntry({ id })}
+          ></MdDeleteSweep>
         </div>
       </div>
     </SEntry>
+  ) : (
+    <></>
   );
 });

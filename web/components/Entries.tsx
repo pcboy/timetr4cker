@@ -51,7 +51,7 @@ const SEntries = styled.div`
   }
 `;
 
-export const Entries = observer(({ projectName }) => {
+export const Entries = observer<{projectName: string}>(({ projectName }) => {
   const { status, data, error, isFetching } = useQuery("entries", () =>
     entryStore.loadEntries(projectName).then((value) => {
       queryCache.invalidateQueries("projects");
@@ -75,7 +75,7 @@ export const Entries = observer(({ projectName }) => {
     );
   }
 
-  const aggDuration = (entries) => {
+  const aggDuration = (entries: []) => {
     return (
       Object.values(entries)
         .flat()
@@ -122,7 +122,7 @@ export const Entries = observer(({ projectName }) => {
       <div className="columns">
         <div className="column is-12">
           <div className="day-divider">
-            <p>{`TOTAL: ${(entryStore.project.currentMinutes / 60.0).toFixed(
+            <p>{`TOTAL: ${((entryStore.project.currentMinutes || 0) / 60.0).toFixed(
               1
             )} hours`}</p>
           </div>

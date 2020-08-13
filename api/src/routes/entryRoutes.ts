@@ -12,6 +12,11 @@ export const entryRoutes = [
     handler: entriesController.createEntry,
   },
   {
+    method: <const>"DELETE",
+    url: "/entries/:projectName/:entryId",
+    handler: entriesController.deleteEntry,
+  },
+  {
     method: [<const>"POST", <const>"GET"],
     url: "/entries/:projectName/startTimer",
     handler: entriesController.startTimer,

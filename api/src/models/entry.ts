@@ -43,7 +43,7 @@ export const getEntries = async (
       ],
     },
     include: [Project],
-    order: [['startTime', 'ASC']]
+    order: [["startTime", "ASC"]],
   });
 };
 
@@ -53,4 +53,8 @@ export const createEntry = async (
   endTime?: Date
 ) => {
   return Entry.create({ projectId, startTime, endTime });
+};
+
+export const deleteEntry = async (projectId: number, entryId: number) => {
+  return Entry.destroy({ where: { projectId, id: entryId } });
 };

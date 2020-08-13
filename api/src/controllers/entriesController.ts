@@ -81,11 +81,22 @@ const createEntry = async (req: any, reply: any) => {
   );
 };
 
+const deleteEntry = async (req: any, reply: any) => {
+  const { projectName, entryId } = req.params;
+
+  const [project]: [Project, boolean] = await Project.findOrCreate({
+    where: { name: projectName },
+  });
+
+  return EntryModel.deleteEntry(project.id, entryId)
+};
+
 const entriesController = {
   getEntries,
   createEntry,
   startTimer,
   stopTimer,
+  deleteEntry,
 };
 
 export default entriesController;
