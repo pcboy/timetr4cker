@@ -35,6 +35,11 @@ const SEntry = styled.div`
   .delete-icon {
     display: none;
   }
+
+  input.editable {
+    width: 70px;
+  }
+
   &:hover {
     .delete-icon {
       display: inline;
@@ -72,11 +77,12 @@ export const Entry = observer<{
     <SEntry className="entry" data-id={id} key={`entry_${id}_${status}`}>
       <div className="columns">
         <div
-          className="column is-8"
+          className="column is-1"
           style={{
             padding: 0,
             display: "flex",
             alignItems: "center",
+            justifyContent: 'space-between',
             paddingLeft: "1rem",
           }}
         >
@@ -101,7 +107,7 @@ export const Entry = observer<{
                 });
             }}
           ></RIEInput>
-          &nbsp;{` ~ `}&nbsp;
+          <span>~</span>
           {endTime && (
             <RIEInput
               value={moment(endTime).format("HH:mm")}
@@ -126,7 +132,7 @@ export const Entry = observer<{
             ></RIEInput>
           )}
         </div>
-        <div className="column is-4">
+        <div className="column is-11">
           <div className="duration">
             {endTime ? (
               <p>
