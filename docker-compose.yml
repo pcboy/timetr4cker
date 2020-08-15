@@ -1,13 +1,13 @@
 version: "3"
 services:
-  postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-    volumes:
-      - postgres:/var/lib/postgresql/data
+#  postgres:
+#    image: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#    volumes:
+#      - postgres:/var/lib/postgresql/data
 
   api:
     image: node:12
@@ -17,12 +17,12 @@ services:
       - ./api:/app
     restart: always
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     ports:
       - 8080:8080
     command: bash -c "yarn start"
-    depends_on:
-      - postgres
+#    depends_on:
+#      - postgres
 
   web:
     image: node:12
@@ -32,17 +32,17 @@ services:
       - ./web:/app
     restart: always
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     ports:
       - 1234:1234
     command: bash -c "yarn dev"
     depends_on:
       - api
 
-volumes:
-  postgres:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: $PWD/volumes/postgres-data
+#volumes:
+#  postgres:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: $PWD/volumes/postgres-data

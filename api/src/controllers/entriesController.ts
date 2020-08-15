@@ -88,7 +88,23 @@ const deleteEntry = async (req: any, reply: any) => {
     where: { name: projectName },
   });
 
-  return EntryModel.deleteEntry(project.id, entryId)
+  return EntryModel.deleteEntry(project.id, entryId);
+};
+
+const updateEntry = async (req: any, reply: any) => {
+  const { entryId } = req.params;
+  const {
+    startTime,
+    endTime,
+  }: { startTime: string; endTime: string } = req.body;
+
+  console.log(req);
+  console.log(`STARTTIME: ${startTime} ; ENDTIME: ${endTime}`)
+  return EntryModel.updateEntry(
+    entryId,
+    new Date(parseInt(startTime)),
+    new Date(parseInt(endTime))
+  );
 };
 
 const entriesController = {
@@ -97,6 +113,7 @@ const entriesController = {
   startTimer,
   stopTimer,
   deleteEntry,
+  updateEntry,
 };
 
 export default entriesController;

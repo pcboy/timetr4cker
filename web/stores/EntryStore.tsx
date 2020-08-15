@@ -33,12 +33,12 @@ const DateEntry = (entryResponse: EntryResponse) => {
 };
 
 interface ProjectData {
-  name?: string;
-  currentMinutes?: number;
-  budget?: number;
-  timeBudget?: number;
-  rate?: number;
-  isTimerStarted?: boolean;
+  name: string;
+  currentMinutes: number;
+  budget: number;
+  timeBudget: number;
+  rate: number;
+  isTimerStarted: boolean;
 }
 
 class EntryStore {
@@ -70,11 +70,9 @@ class EntryStore {
     if (this.project.budget === 0) return 0;
 
     return (
-      (
-        (((this.project.currentMinutes / 60.0) * this.project.rate) /
-          this.project.budget) *
-        100
-      ).toFixed(1) || 0
+      (((this.project.currentMinutes / 60.0) * this.project.rate) /
+        this.project.budget) *
+        100 || 0
     );
   }
 
@@ -140,6 +138,19 @@ class EntryStore {
   @action createEntry = async (startTime, endTime) => {
     return Axios.post(
       process.env.API_URL + "/entries",
+      { startTime, endTime },
+      { withCredentials: true }
+    ).then((response) => response.data);
+  };
+
+  @action updateEntry = async (
+    entryId: number,
+    startTime: number,
+    endTime: number
+  ) => {
+    console.log(moment(startTime));
+    return Axios.put(
+      process.env.API_URL + `/entries/${entryId}`,
       { startTime, endTime },
       { withCredentials: true }
     ).then((response) => response.data);

@@ -33,7 +33,6 @@ export const WelcomePage = observer(() => {
           key={`project_${entryStore.selectedPeriod.startDate}_${entryStore.selectedPeriod.endDate}`}
           projectName={entryStore.project.name}
         />
-
         <Entries
           key={`entries_${entryStore.selectedPeriod.startDate}_${entryStore.selectedPeriod.endDate}`}
           projectName={entryStore.project.name}

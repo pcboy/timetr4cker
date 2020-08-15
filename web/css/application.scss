@@ -97,4 +97,11 @@ button.is-danger {
   background-color: $radical-red;
 }
 
+.editable {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 @import "./print";

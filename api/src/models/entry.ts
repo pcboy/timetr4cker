@@ -55,6 +55,16 @@ export const createEntry = async (
   return Entry.create({ projectId, startTime, endTime });
 };
 
+export const updateEntry = async (
+  entryId: number,
+  startTime: Date,
+  endTime: Date
+) => {
+  console.log(startTime);
+  console.log(endTime);
+  return Entry.update({ startTime, endTime }, { where: { id: entryId } });
+};
+
 export const deleteEntry = async (projectId: number, entryId: number) => {
   return Entry.destroy({ where: { projectId, id: entryId } });
 };

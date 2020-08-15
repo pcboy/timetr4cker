@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import Moment from "react-moment";
 import styled from "styled-components";
 import moment from "moment";
+import { RIEInput } from "riek";
 
 import { MdDeleteSweep } from "react-icons/md";
 
@@ -36,15 +37,16 @@ const SEntry = styled.div`
   }
   &:hover {
     .delete-icon {
-      display:inline;
+      display: inline;
       position: absolute;
       right: -6rem;
       top: 0;
-      z-index:100;
-      height:100%;
+      z-index: 100;
+      height: 100%;
       width: 70px;
+      padding: 7px;
       &:hover {
-        display:inline;
+        display: inline;
 
         color: var(--radical-red);
         cursor: pointer;
@@ -60,16 +62,69 @@ export const Entry = observer<{
   duration: number;
 }>(({ id, startTime, endTime, duration }) => {
   const deleteAction = async (data: any) => {
-    entryStore.deleteEntry(data.id);
+    entryStore
+      .deleteEntry(data.id)
+      .then(() => queryCache.invalidateQueries("entries"));
   };
   const [deleteEntry, { status }] = useMutation(deleteAction);
 
   return status !== "success" ? (
     <SEntry className="entry" data-id={id} key={`entry_${id}_${status}`}>
       <div className="columns">
-        <div className="column is-8">
-          {moment(startTime).format("HH:mm")} ~{" "}
-          {endTime && moment(endTime).format("HH:mm")}
+        <div
+          className="column is-8"
+          style={{
+            padding: 0,
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: "1rem",
+          }}
+        >
+          <RIEInput
+            value={moment(startTime).format("HH:mm")}
+            propName="startTime"
+            className="editable"
+            validate={(input: any) =>
+              input.match(/^\d{1,2}:\d{1,2}$/g) !== null
+            }
+            change={(data: { startTime: string }) => {
+              const [_, hours, minutes] = data.startTime.match(
+                /^(\d{1,2}):(\d{1,2})$/
+              )!;
+
+              startTime.setHours(parseInt(hours));
+              startTime.setMinutes(parseInt(minutes));
+              entryStore
+                .updateEntry(id, startTime.getTime(), endTime.getTime())
+                .then(() => {
+                  queryCache.invalidateQueries("entries");
+                });
+            }}
+          ></RIEInput>
+          &nbsp;{` ~ `}&nbsp;
+          {endTime && (
+            <RIEInput
+              value={moment(endTime).format("HH:mm")}
+              propName="endTime"
+              className="editable"
+              validate={(input: any) =>
+                input.match(/^\d{1,2}:\d{1,2}$/g) !== null
+              }
+              change={(data: { endTime: string }) => {
+                const [_, hours, minutes] = data.endTime.match(
+                  /^(\d{1,2}):(\d{1,2})$/
+                )!;
+
+                endTime.setHours(parseInt(hours));
+                endTime.setMinutes(parseInt(minutes));
+                entryStore
+                  .updateEntry(id, startTime.getTime(), endTime.getTime())
+                  .then(() => {
+                    queryCache.invalidateQueries("entries");
+                  });
+              }}
+            ></RIEInput>
+          )}
         </div>
         <div className="column is-4">
           <div className="duration">

@@ -17,6 +17,11 @@ export const entryRoutes = [
     handler: entriesController.deleteEntry,
   },
   {
+    method: <const>"PUT",
+    url: "/entries/:entryId",
+    handler: entriesController.updateEntry,
+  },
+  {
     method: [<const>"POST", <const>"GET"],
     url: "/entries/:projectName/startTimer",
     handler: entriesController.startTimer,
