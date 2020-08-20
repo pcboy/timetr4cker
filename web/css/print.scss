@@ -35,4 +35,12 @@
     padding: 0;
     margin: 0;
   }
+
+  .editable {
+    text-decoration-line: none;
+    font-weight: bold;
+  }
+  .entry > .entry {
+    padding-bottom: '10px';
+  }
 }

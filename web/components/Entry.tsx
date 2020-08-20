@@ -19,21 +19,25 @@ const SEntry = styled.div`
   border-radius: 6px;
   font-weight: bold;
 
+  @media print {
+    box-shadow: none;
+    background: none;
+    margin-bottom: 0;
+    font-size: 1rem;
+    padding-left: 0;
+  }
+
   .duration {
     text-align: right;
   }
   margin-bottom: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-  @media print {
-    box-shadow: none;
-    background: none;
-    margin-bottom: 0;
-    font-size: 1rem;
-    padding-bottom: 0;
-  }
   .delete-icon {
     display: none;
+  }
+  .editable {
+    min-width: 35px;
   }
 
   input.editable {
@@ -77,19 +81,20 @@ export const Entry = observer<{
     <SEntry className="entry" data-id={id} key={`entry_${id}_${status}`}>
       <div className="columns">
         <div
-          className="column is-1"
+          className="column is-narrow"
           style={{
             padding: 0,
             display: "flex",
             alignItems: "center",
-            justifyContent: 'space-between',
             paddingLeft: "1rem",
+            justifyContent: "space-around",
           }}
         >
           <RIEInput
             value={moment(startTime).format("HH:mm")}
             propName="startTime"
-            className="editable"
+            className="editable has-text-left"
+            style={{ textAlign: "left" }}
             validate={(input: any) =>
               input.match(/^\d{1,2}:\d{1,2}$/g) !== null
             }
@@ -107,12 +112,12 @@ export const Entry = observer<{
                 });
             }}
           ></RIEInput>
-          <span>~</span>
+          <span style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>~</span>
           {endTime && (
             <RIEInput
               value={moment(endTime).format("HH:mm")}
               propName="endTime"
-              className="editable"
+              className="editable has-text-right"
               validate={(input: any) =>
                 input.match(/^\d{1,2}:\d{1,2}$/g) !== null
               }
@@ -132,7 +137,7 @@ export const Entry = observer<{
             ></RIEInput>
           )}
         </div>
-        <div className="column is-11">
+        <div className="column">
           <div className="duration">
             {endTime ? (
               <p>

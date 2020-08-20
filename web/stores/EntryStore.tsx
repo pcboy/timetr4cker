@@ -167,7 +167,7 @@ class EntryStore {
       }
     )
       .then((response) => response.data)
-      .then((data) => data.sort((a, b) => a.startTime - b.startTime))
+      .then((data) => data.sort((a, b) => a.startTime > b.startTime ? -1 : 1))
       .then((data) => {
         this.project["currentMinutes"] = 0;
         let isStarted = false;
