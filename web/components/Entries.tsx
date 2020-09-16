@@ -43,7 +43,7 @@ const SEntries = styled.div`
       }
     }
     .day-divider {
-      margin-top: 1rem;
+      margin-top: 0rem;
     }
     .subtotal {
       display: none;

@@ -99,12 +99,26 @@ const updateEntry = async (req: any, reply: any) => {
   }: { startTime: string; endTime: string } = req.body;
 
   console.log(req);
-  console.log(`STARTTIME: ${startTime} ; ENDTIME: ${endTime}`)
+  console.log(`STARTTIME: ${startTime} ; ENDTIME: ${endTime}`);
   return EntryModel.updateEntry(
     entryId,
     new Date(parseInt(startTime)),
     new Date(parseInt(endTime))
   );
+};
+
+const isTimerStarted = async (req: any, reply: any) => {
+  const { projectName } = req.params;
+
+  const [project]: [Project, boolean] = await Project.findOrCreate({
+    where: { name: projectName },
+  });
+
+  const exists = await EntryModel.Entry.findOne({
+    where: { endTime: null, projectId: project.id! },
+  });
+
+  return reply.code(!!exists ? 200 : 418).send({ started: !!exists });
 };
 
 const entriesController = {
@@ -114,6 +128,7 @@ const entriesController = {
   stopTimer,
   deleteEntry,
   updateEntry,
+  isTimerStarted,
 };
 
 export default entriesController;

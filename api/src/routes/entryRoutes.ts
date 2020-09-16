@@ -22,12 +22,17 @@ export const entryRoutes = [
     handler: entriesController.updateEntry,
   },
   {
-    method: [<const>"POST", <const>"GET"],
+    method: <const>"GET",
+    url: "/entries/:projectName/isTimerStarted",
+    handler: entriesController.isTimerStarted,
+  },
+  {
+    method: [<const>"POST"],
     url: "/entries/:projectName/startTimer",
     handler: entriesController.startTimer,
   },
   {
-    method: [<const>"POST", <const>"GET"],
+    method: [<const>"POST"],
     url: "/entries/:projectName/stopTimer",
     handler: entriesController.stopTimer,
   },
