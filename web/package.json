@@ -11,7 +11,7 @@
     "@bit/redsky.framework.rs.progressbar": "^0.0.4",
     "@types/react-query": "^1.1.2",
     "@types/styled-components": "^5.1.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bulma": "^0.9.0",
     "config": "^3.3.1",
     "dotenv": "^8.2.0",
