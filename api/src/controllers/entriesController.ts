@@ -98,8 +98,6 @@ const updateEntry = async (req: any, reply: any) => {
     endTime,
   }: { startTime: string; endTime: string } = req.body;
 
-  console.log(req);
-  console.log(`STARTTIME: ${startTime} ; ENDTIME: ${endTime}`);
   return EntryModel.updateEntry(
     entryId,
     new Date(parseInt(startTime)),

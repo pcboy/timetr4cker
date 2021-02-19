@@ -60,8 +60,6 @@ export const updateEntry = async (
   startTime: Date,
   endTime: Date
 ) => {
-  console.log(startTime);
-  console.log(endTime);
   return Entry.update({ startTime, endTime }, { where: { id: entryId } });
 };
 

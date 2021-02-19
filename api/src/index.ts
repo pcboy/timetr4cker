@@ -1,8 +1,11 @@
 import { entryRoutes } from "./routes/entryRoutes";
 import { projectRoutes } from "./routes/projectRoutes";
 
-const server = require("fastify")({ logger: true });
-require("../config/database");
+import fastify from "fastify";
+import db from "../config/database";
+
+const server = fastify({ logger: true });
+db.isDefined;
 
 server.register(require("fastify-cors"), {
   origin:
@@ -10,23 +13,15 @@ server.register(require("fastify-cors"), {
   credentials: true,
 });
 
-server.register(require("fastify-cookie"), {
+/* server.register(require("fastify-cookie"), {
   secret: process.env.SECRET_KEY,
   parseOptions: {},
 });
-
+ */
 entryRoutes.forEach((route, _) => server.route(route));
 projectRoutes.forEach((route, _) => server.route(route));
 
-server.addHook("onRequest", async (request: any) => {
-  let data = request.cookies?.token;
-  if (data) {
-  }
-
-  return;
-});
-
-server.listen(8080, '0.0.0.0', async (err: Error, address: string) => {
+server.listen(8080, "0.0.0.0", async (err: Error, address: string) => {
   if (err) {
     console.error(err);
     process.exit(1);

@@ -1,5 +1,5 @@
 import fastify from "../index";
-import { Entry } from "models/entry";
+import { Entry } from "../models/entry";
 
 beforeAll(async () => {
   fastify.ready();

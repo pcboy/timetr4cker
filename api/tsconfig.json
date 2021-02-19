@@ -10,7 +10,8 @@
     "target": "es2017",
     "types": ["jest", "node"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
