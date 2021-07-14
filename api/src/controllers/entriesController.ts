@@ -14,6 +14,7 @@ const getEntries = async (req: any, reply: any) => {
     endTime,
   }: { startTime: string; endTime: string } = req.query;
 
+
   return EntryModel.getEntries(
     project.id!,
     new Date(parseInt(startTime)),

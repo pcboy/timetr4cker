@@ -20,7 +20,7 @@ services:
       - NODE_ENV=development
     ports:
       - 8080:8080
-    command: bash -c "yarn start"
+    command: bash -c "yarn install && yarn start"
 #    depends_on:
 #      - postgres
 
@@ -35,7 +35,7 @@ services:
       - NODE_ENV=development
     ports:
       - 1234:1234
-    command: bash -c "yarn dev"
+    command: bash -c "yarn install && yarn dev"
     depends_on:
       - api
 

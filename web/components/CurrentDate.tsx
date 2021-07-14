@@ -51,11 +51,10 @@ export const CurrentDate = observer(() => {
             queryParams={{
               startDate: moment(entryStore.selectedPeriod.startDate)
                 .subtract(1, "months")
-                .format("YYYY-MM-DD"),
-              endDate: moment(entryStore.selectedPeriod.endDate)
+                .toISOString(),
+              endDate: moment(entryStore.selectedPeriod.startDate)
                 .subtract(1, "months")
-                .endOf("month")
-                .format("YYYY-MM-DD"),
+                .endOf("month").toISOString(),
             }}
           >
             <MdKeyboardArrowLeft className="arrow" />
@@ -87,11 +86,11 @@ export const CurrentDate = observer(() => {
             queryParams={{
               startDate: moment(entryStore.selectedPeriod.startDate)
                 .add(1, "months")
-                .format("YYYY-MM-DD"),
-              endDate: moment(entryStore.selectedPeriod.endDate)
+                .toISOString(),
+              endDate: moment(entryStore.selectedPeriod.startDate)
                 .add(1, "months")
                 .endOf("month")
-                .format("YYYY-MM-DD"),
+                .toISOString(),
             }}
           >
             <MdKeyboardArrowRight className="arrow" />

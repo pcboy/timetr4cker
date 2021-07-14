@@ -9,13 +9,11 @@ import { groupBy } from "lodash";
 import moment from "moment";
 
 export const firstDayOfMonth = (offset = 0) => {
-  var date = new Date();
-  return new Date(date.getFullYear(), date.getMonth() + offset, 1);
+  return moment().startOf('month').toDate()
 };
 
 export const lastDayOfMonth = (offset = 0) => {
-  var date = new Date();
-  return new Date(date.getFullYear(), date.getMonth() + 1 + offset, 0);
+  return moment().endOf('month').toDate()
 };
 
 const DateEntry = (entryResponse: EntryResponse) => {
@@ -78,7 +76,6 @@ class EntryStore {
 
   @action updateProject = async (projectData: ProjectData) => {
     const merged = { ...this.project, ...projectData };
-    console.log(merged);
     return Axios.post(
       process.env.API_URL + `/projects/${merged.name}`,
       {
@@ -88,9 +85,7 @@ class EntryStore {
       },
       { withCredentials: true }
     ).then((response) => {
-      console.log(JSON.stringify(this.project));
       this.project = { ...this.project, ...response.data };
-      console.log(JSON.stringify(this.project));
       return this.project;
     });
   };
@@ -148,7 +143,6 @@ class EntryStore {
     startTime: number,
     endTime: number
   ) => {
-    console.log(moment(startTime));
     return Axios.put(
       process.env.API_URL + `/entries/${entryId}`,
       { startTime, endTime },
