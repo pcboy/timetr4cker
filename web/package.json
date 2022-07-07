@@ -22,7 +22,7 @@
     "mobx-react-lite": "^2.x",
     "mobx-router": "^0.2.9",
     "mobx-router-typescript": "^0.2.9",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "parcel": "^1.12.4",
     "react": ">= 16.8 < 17",
     "react-api-hooks": "^0.2.3",
