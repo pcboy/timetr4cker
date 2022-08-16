@@ -19,12 +19,17 @@ const MainControls: React.FC<{
 }> = observer(({ projectName, startDate, endDate }) => {
   const { projectStore, uiStore } = useContext(RootStoreContext);
 
+  const [notFound, setNotFound] = React.useState(false);
+
   useEffect(() => {
-    projectStore.getProject(projectName.toString()).then((projectId) => {
-      projectStore.setCurrentProject(projectId);
-      startDate && uiStore.setStartDate(startDate);
-      endDate && uiStore.setEndDate(endDate);
-    });
+    projectStore
+      .getProject(projectName.toString())
+      .then((projectId) => {
+        projectStore.setCurrentProject(projectId);
+        startDate && uiStore.setStartDate(startDate);
+        endDate && uiStore.setEndDate(endDate);
+      })
+      .catch((e) => setNotFound(true));
   }, [projectName, startDate, endDate]);
 
   return projectStore.currentProject ? (
@@ -39,7 +44,9 @@ const MainControls: React.FC<{
       </div>
     </div>
   ) : (
-    <b>Loading project..</b>
+    <div className="h-screen w-screen flex justify-center items-center">
+      {notFound ? <b>Project not found</b> : <b>Loading project..</b>}
+    </div>
   );
 });
 

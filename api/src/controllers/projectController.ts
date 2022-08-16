@@ -25,7 +25,11 @@ const updateProject = async (req: any, reply: any) => {
 const getProject = async (req: any, reply: any) => {
   const { projectName } = req.params;
 
-  return Project.findOne({ where: { name: projectName } });
+  const project = await Project.findOne({ where: { name: projectName } });
+  if (!project) {
+    reply.code(404);
+  }
+  return project;
 };
 
 const getProjects = async (req: any, reply: any) => {
