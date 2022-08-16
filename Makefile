@@ -3,6 +3,3 @@ docker:
 
 create_database:
 	docker-compose run api npx sequelize-cli db:create
-
-all:
-	yarn start
