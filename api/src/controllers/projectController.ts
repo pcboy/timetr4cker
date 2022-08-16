@@ -2,22 +2,24 @@ import * as ProjectModel from "../models/project";
 import { Project } from "../models/project";
 
 const updateProject = async (req: any, reply: any) => {
-  const { projectName } = req.params;
+  const { projectId } = req.params;
 
-  const project = await Project.findOne({ where: { name: projectName } });
+  console.log(projectId);
+  const project = await Project.findOne({ where: { id: projectId } });
 
   const {
     budget,
     timeBudget,
     rate,
   }: { budget: string; timeBudget: string; rate: string } = req.body;
+  console.log(req.body);
 
   return ProjectModel.updateProject(
     project.id,
     parseInt(budget),
     parseInt(timeBudget),
     parseInt(rate)
-  );
+  ).then(() => reply.code(200).send({ success: true }));
 };
 
 const getProject = async (req: any, reply: any) => {
@@ -33,7 +35,7 @@ const getProjects = async (req: any, reply: any) => {
 const projectsController = {
   getProjects,
   updateProject,
-  getProject
+  getProject,
 };
 
 export default projectsController;

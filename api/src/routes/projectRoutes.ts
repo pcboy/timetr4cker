@@ -13,7 +13,7 @@ export const projectRoutes = [
   },
   {
     method: <const>"POST",
-    url: "/projects/:projectName",
+    url: "/projects/:projectId",
     handler: projectController.updateProject,
   },
 ];

@@ -63,6 +63,6 @@ export const updateEntry = async (
   return Entry.update({ startTime, endTime }, { where: { id: entryId } });
 };
 
-export const deleteEntry = async (projectId: number, entryId: number) => {
-  return Entry.destroy({ where: { projectId, id: entryId } });
+export const deleteEntry = async (entryId: number) => {
+  return Entry.destroy({ where: { id: entryId } });
 };

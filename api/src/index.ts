@@ -8,8 +8,7 @@ const server = fastify({ logger: true });
 db.isDefined;
 
 server.register(require("fastify-cors"), {
-  origin:
-    process.env.NODE_ENV == "production" ? process.env.PUBLIC_URL : /localhost/,
+  origin: '*',
   credentials: true,
 });
 

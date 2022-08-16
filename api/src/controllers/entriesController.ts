@@ -9,11 +9,8 @@ const getEntries = async (req: any, reply: any) => {
     defaults: { budget: 1000000, timeBudget: 161 * 60, rate: 10000 },
   });
 
-  const {
-    startTime,
-    endTime,
-  }: { startTime: string; endTime: string } = req.query;
-
+  const { startTime, endTime }: { startTime: string; endTime: string } =
+    req.query;
 
   return EntryModel.getEntries(
     project.id!,
@@ -70,10 +67,8 @@ const createEntry = async (req: any, reply: any) => {
     where: { name: projectName },
   });
 
-  var {
-    startTime,
-    endTime,
-  }: { startTime: string; endTime: string } = req.query;
+  var { startTime, endTime }: { startTime: string; endTime: string } =
+    req.query;
 
   return EntryModel.createEntry(
     project.id!,
@@ -83,21 +78,15 @@ const createEntry = async (req: any, reply: any) => {
 };
 
 const deleteEntry = async (req: any, reply: any) => {
-  const { projectName, entryId } = req.params;
+  const { entryId } = req.params;
 
-  const [project]: [Project, boolean] = await Project.findOrCreate({
-    where: { name: projectName },
-  });
-
-  return EntryModel.deleteEntry(project.id, entryId);
+  return EntryModel.deleteEntry(entryId);
 };
 
 const updateEntry = async (req: any, reply: any) => {
   const { entryId } = req.params;
-  const {
-    startTime,
-    endTime,
-  }: { startTime: string; endTime: string } = req.body;
+  const { startTime, endTime }: { startTime: string; endTime: string } =
+    req.body;
 
   return EntryModel.updateEntry(
     entryId,

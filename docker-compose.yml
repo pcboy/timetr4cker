@@ -25,7 +25,7 @@ services:
 #      - postgres
 
   web:
-    image: node:12
+    image: node:14
     user: node
     working_dir: /app
     volumes:
@@ -34,7 +34,7 @@ services:
     environment:
       - NODE_ENV=development
     ports:
-      - 1234:1234
+      - 1234:3000
     command: bash -c "yarn install && yarn dev"
     depends_on:
       - api

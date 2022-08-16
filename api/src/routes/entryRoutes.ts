@@ -13,7 +13,7 @@ export const entryRoutes = [
   },
   {
     method: <const>"DELETE",
-    url: "/entries/:projectName/:entryId",
+    url: "/entries/:entryId",
     handler: entriesController.deleteEntry,
   },
   {

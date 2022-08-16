@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Proxima", sans-serif;
+  }
+}
+
+@font-face {
+  font-family: "Proxima";
+  src: url("/proxima_ssv/proximanova-regular-webfont.woff2") format("woff2"),
+    url("/proxima_ssv/proximanova-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Proxima";
+  src: url("/proxima_ssv/proxima_nova_bold-webfont.woff2") format("woff2"),
+    url("/proxima_ssv/proxima_nova_bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: bold;
+}
+
+html {
+  font-family: "Proxima", sans-serif;
+}
+
+input.editable {
+  width: 7rem;
+}
+
+.editable {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+@media print {
+  .editable {
+    text-decoration-line: unset;
+    text-decoration-style: unset;
+  }
+  @page {
+    margin-top: 0mm;
+    margin-bottom: 0mm;
+  }
+}
