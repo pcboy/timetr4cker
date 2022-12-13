@@ -94,14 +94,14 @@ export const Entries: React.FC = observer(({}) => {
         </div>
       ) : (
         <>
-          <div className="flex flex-col w-full">
+          <div className="screen:flex screen:flex-col print:block w-full relative">
             <div className="flex w-full justify-between text-xl text-gray-600 screen:hidden">
               <b>Hours</b>
               <b>Duration</b>
             </div>
             {projectStore.currentProject.sortedDays.map((day) => (
               <React.Fragment key={`entry_group_${day}`}>
-                <div className="screen:mb-8 screen:mt-5">
+                <div className="screen:mb-8 screen:mt-5 keep-together relative print:mt-3">
                   <div className="flex items-center">
                     <div className="border-t border-gray-300 flex-grow"></div>
                     <div className="flex-shrink ml-5 screen:text-xl print:text-sm font-bold">
@@ -114,12 +114,11 @@ export const Entries: React.FC = observer(({}) => {
                     )
                   )}
                   <div className="flex items-center mt-5 justify-end print:hidden">
-                    <p className="ml-5">{`Subtotal: ${projectStore.currentProject.groupedEntries[
-                      day
-                    ]
-                      .map((x) => x.duration)
-                      .reduce((a, b) => (a + b) / 60.0, 0)
-                      .toFixed(1)} hours`}</p>
+                    <p className="ml-5">{`Subtotal: ${(
+                      projectStore.currentProject.groupedEntries[day]
+                        .map((x) => x.duration)
+                        .reduce((a, b) => a + b, 0) / 60.0
+                    ).toFixed(1)} hours`}</p>
                   </div>
                 </div>
               </React.Fragment>
