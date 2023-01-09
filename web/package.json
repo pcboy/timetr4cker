@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "luxon": "^3.0.1",
+    "luxon": "^3.2.1",
     "mobx": "^6.6.1",
     "mobx-react": "^7.5.2",
     "mobx-state-tree": "^5.1.5",
