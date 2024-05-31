@@ -26,8 +26,12 @@ const getProject = async (req: any, reply: any) => {
   const { projectName } = req.params;
 
   const project = await Project.findOne({ where: { name: projectName } });
+  console.log(project)
   if (!project) {
-    reply.code(404);
+    return await Project.findOrCreate({
+      where: { name: projectName },
+      defaults: { name: projectName },
+    });
   }
   return project;
 };

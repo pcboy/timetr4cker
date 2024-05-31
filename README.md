@@ -1,13 +1,21 @@
 # timetr4cker
+
 Track your working hours as a freelancer with an API and a very simple dashboard.
 
 ## Setup
 
-There is a docker-compose.yml file at the root of the repo.  
-You simply have to do:
+I'm using:
+
+- Svelte 5 
+- Fastify
+- pnpm
+
+But you don't need to install those. Just install [Nix](https://nixos.org/download/) and [Direnv](https://direnv.net/) instead. 
+
+Then type:
 
 ```
-docker-compose up -d
+make
 ```
 
 Then Timetracker will be available on http://localhost:1234 .  
@@ -23,3 +31,4 @@ UI:
 Then when you try to print the page, you get a perfect PDF version you can give to your customer:
 
 <a href="./assets/screenshot_pdf.png"><img src="./assets/screenshot_pdf.png"/></a>
+
