@@ -1,5 +1,6 @@
-docker:
-	docker-compose up -d
+all:
+	cd api && pnpm install && nohup pnpm start &
+	cd web && pnpm install && nohup pnpm dev & 
 
 create_database:
-	docker-compose run api npx sequelize-cli db:create
+	cd api && pnpx sequelize-cli db:create

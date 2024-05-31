@@ -8,7 +8,7 @@ const server = fastify({ logger: true });
 db.isDefined;
 
 server.register(require("fastify-cors"), {
-  origin: '*',
+  origin: "*",
   credentials: true,
 });
 

@@ -1,31 +1,51 @@
 {
-  "name": "timetr4cker_web",
-  "version": "1.0.0",
-  "license": "WTFPL",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "axios": "^0.27.2",
-    "luxon": "^3.0.1",
-    "mobx": "^6.6.1",
-    "mobx-react": "^7.5.2",
-    "mobx-state-tree": "^5.1.5",
-    "next": "^12.2.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^4.4.0",
-    "react-query": "^3.0.0",
-    "riek": "^1.1.0",
-    "typescript": "^4.7.4"
-  },
-  "devDependencies": {
-    "@types/node": "^18.6.3",
-    "@types/react": "^18.0.15",
-    "autoprefixer": "^10.4.8",
-    "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.7"
-  }
+	"name": "svelte",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev --port 1234",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "vitest",
+		"lint": "eslint .",
+		"format": "prettier --write ."
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.4.0",
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/eslint": "^8.56.0",
+		"@types/eslint__js": "^8.42.3",
+		"@types/luxon": "^3.4.2",
+		"@typescript-eslint/eslint-plugin": "^7.11.0",
+		"@typescript-eslint/parser": "^7.11.0",
+		"autoprefixer": "^10.4.17",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-readable-tailwind": "^1.5.1",
+		"eslint-plugin-svelte": "^2.35.1",
+		"postcss": "^8.4.35",
+		"prettier": "^3.1.1",
+		"prettier-plugin-svelte": "^3.1.2",
+		"prettier-plugin-tailwindcss": "^0.6.0",
+		"svelte": "5.0.0-next.152",
+		"svelte-check": "^3.6.0",
+		"svelte-eslint-parser": "^0.36.0",
+		"tailwindcss": "^3.4.1",
+		"tslib": "^2.4.1",
+		"typescript": "^5.3.3",
+		"typescript-eslint": "^7.12.0",
+		"vite": "^5.0.3",
+		"vitest": "^1.2.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"@sveltestack/svelte-query": "^1.6.0",
+		"axios": "^1.6.7",
+		"echarts": "^5.5.1",
+		"luxon": "^3.4.4"
+	}
 }
